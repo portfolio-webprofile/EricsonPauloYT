@@ -92,3 +92,42 @@ body{background:var(--bg);color:var(--text);transition:.3s}
 .link-card.facebook { border-color: #1877f2; }
 .link-card.tiktok { border-color: #ffffff; }
 .link-card.discord { border-color: #5865F2; }
+/* ================= FLOATING CONTROLS ================= */
+.floating-controls {
+  position: fixed;
+  bottom: 1.2rem;
+  right: 1.2rem;
+  z-index: 9999;
+
+  display: flex;
+  gap: .6rem;
+
+  background: rgba(2, 6, 23, 0.65);
+  backdrop-filter: blur(10px);
+
+  padding: .6rem .8rem;
+  border-radius: 999px;
+  box-shadow: 0 0 25px rgba(34,255,136,.35);
+}
+
+.floating-controls button {
+  background: none;
+  border: none;
+  color: var(--neon);
+  font-size: 1.3rem;
+  cursor: pointer;
+  transition: transform .2s ease, color .2s ease;
+}
+
+.floating-controls button:hover {
+  transform: scale(1.15);
+  color: #ffffff;
+}
+
+/* Mobile safe spacing */
+@media (max-width: 576px) {
+  .floating-controls {
+    bottom: 1rem;
+    right: 1rem;
+  }
+}
