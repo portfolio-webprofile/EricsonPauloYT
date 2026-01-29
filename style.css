@@ -14,7 +14,7 @@ html, body {
   --bg: #020617;
   --text: #e5e7eb;
   --neon: #22ff88;
-  --card: rgba(2, 6, 23, 0.85);
+  --card: rgba(2,6,23,0.85);
 }
 
 .theme-light {
@@ -52,8 +52,8 @@ body {
 
 .intro-logo {
   width: 140px;
-  box-shadow: 0 0 30px var(--neon);
   border-radius: 50%;
+  box-shadow: 0 0 30px var(--neon);
 }
 
 .intro-text {
@@ -72,14 +72,15 @@ body {
 }
 
 @keyframes load {
-  0% {transform: translateX(-120px);}
-  100% {transform: translateX(120px);}
+  from { transform: translateX(-120px); }
+  to { transform: translateX(120px); }
 }
 
 /* HERO */
 .hero {
   padding: 4rem 1rem;
   text-align: center;
+  position: relative;
 }
 
 .hero-logo {
@@ -117,6 +118,7 @@ body {
   color: var(--neon);
   font-size: 1.3rem;
   margin-left: 10px;
+  cursor: pointer;
 }
 
 /* SECTIONS */
@@ -143,8 +145,8 @@ body {
 }
 
 .rp-desc {
-  margin-top: 1rem;
   color: #9ca3af;
+  margin-top: 1rem;
 }
 
 /* LINKS */
@@ -173,6 +175,19 @@ body {
   pointer-events: none;
 }
 
+/* VIDEO */
+.yt-title {
+  margin-top: 1rem;
+  color: #9ca3af;
+}
+
+.yt-loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: var(--neon);
+}
+
 /* CARDS */
 .neon-card {
   background: var(--card);
@@ -195,7 +210,7 @@ body {
 
 .neon-red {
   background: #dc2626;
-  color: white;
+  color: #fff;
   box-shadow: 0 0 15px #dc2626;
 }
 
