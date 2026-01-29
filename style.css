@@ -1,5 +1,5 @@
 /* ============================
-   RESET
+   RESET & BASE
 ============================ */
 * {
   margin: 0;
@@ -28,7 +28,7 @@ body {
 }
 
 /* ============================
-   BACKGROUND (NO IMAGE)
+   CITY BACKGROUND (IMAGE)
 ============================ */
 .bg-layer {
   position: fixed;
@@ -36,9 +36,43 @@ body {
   z-index: -1;
 
   background:
-    radial-gradient(circle at 20% 30%, rgba(34,255,136,0.18), transparent 40%),
-    radial-gradient(circle at 80% 70%, rgba(34,255,136,0.12), transparent 45%),
-    linear-gradient(180deg, #020617 0%, #020617 100%);
+    linear-gradient(
+      rgba(2,6,23,0.75),
+      rgba(2,6,23,0.88)
+    ),
+    url("bg-city.jpg") center / cover no-repeat;
+
+  filter: blur(2px) brightness(0.6) saturate(1.2);
+}
+
+/* ============================
+   NEON ANIMATIONS
+============================ */
+@keyframes neonFlicker {
+  0%, 100% {
+    opacity: 1;
+    text-shadow:
+      0 0 8px #22ff88,
+      0 0 18px #22ff88,
+      0 0 35px rgba(34,255,136,0.8);
+  }
+  95% { opacity: 0.85; }
+  96% { opacity: 0.4; }
+  97% { opacity: 1; }
+  98% { opacity: 0.6; }
+}
+
+@keyframes neonPulse {
+  0%, 100% {
+    filter:
+      drop-shadow(0 0 18px rgba(34,255,136,0.4))
+      drop-shadow(0 0 40px rgba(34,255,136,0.2));
+  }
+  50% {
+    filter:
+      drop-shadow(0 0 30px rgba(34,255,136,0.75))
+      drop-shadow(0 0 80px rgba(34,255,136,0.35));
+  }
 }
 
 /* ============================
@@ -62,10 +96,15 @@ body {
 
 .hero-title span {
   color: var(--neon);
+  animation: neonFlicker 5.5s infinite;
 }
 
 .hero-sub {
   color: #9ca3af;
+}
+
+.hero-actions {
+  margin-top: 1.5rem;
 }
 
 /* ============================
@@ -79,15 +118,14 @@ body {
 .section-title {
   color: var(--neon);
   margin-bottom: 2rem;
-  text-shadow: 0 0 10px var(--neon);
+  animation: neonFlicker 6s infinite;
 }
 
 /* ============================
-   CHARACTER FIX (IMPORTANT)
+   CHARACTER (TRANSPARENT PNG)
 ============================ */
 .character-card {
   background: transparent !important;
-  box-shadow: none !important;
 }
 
 .character-img {
@@ -102,23 +140,16 @@ body {
   transform: none !important;
   border-radius: 0;
 
-  filter:
-    drop-shadow(0 0 20px rgba(34,255,136,0.45))
-    drop-shadow(0 0 55px rgba(34,255,136,0.25));
-
-  transition: transform 0.3s ease;
-}
-
-.character-img:hover {
-  transform: scale(1.04);
+  animation: neonPulse 3.5s ease-in-out infinite;
 }
 
 /* ============================
-   RP TEXT
+   RP PROFILE TEXT
 ============================ */
 .rp-list {
   list-style: none;
   padding: 0;
+  margin-bottom: 1rem;
 }
 
 .rp-list li {
@@ -129,6 +160,42 @@ body {
   color: #9ca3af;
   max-width: 520px;
   margin: auto;
+}
+
+/* ============================
+   LINKTREE
+============================ */
+.links-grid {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.link-card {
+  padding: 1rem 2rem;
+  border: 1px solid var(--neon);
+  color: var(--neon);
+  text-decoration: none;
+}
+
+.link-card:hover {
+  background: var(--neon);
+  color: #020617;
+}
+
+.link-card.disabled {
+  opacity: 0.4;
+  pointer-events: none;
+}
+
+/* ============================
+   VIDEO
+============================ */
+.neon-card {
+  border-radius: 16px;
+  box-shadow: 0 0 25px rgba(34,255,136,0.35);
+  overflow: hidden;
 }
 
 /* ============================
@@ -150,5 +217,14 @@ body {
 
   .character-img {
     max-width: 220px;
+  }
+}
+
+/* ============================
+   PERFORMANCE SAFETY
+============================ */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation: none !important;
   }
 }
