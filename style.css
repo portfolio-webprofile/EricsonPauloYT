@@ -151,3 +151,7 @@ body{background:var(--bg);color:var(--text);transition:.3s}
   touch-action: none; /* 🔴 REQUIRED */
   user-select: none;
 }
+/* Allow buttons to receive pointer events */
+.floating-controls button {
+  pointer-events: auto;
+}
