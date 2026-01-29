@@ -15,29 +15,33 @@ const ytTitle = document.getElementById('ytTitle');
 // STATE
 // =====================================
 let musicStarted = false;
-const savedMusicState = localStorage.getItem('musicState'); // "playing" | "paused"
 
 // =====================================
-// INTRO + MUSIC START (WITH MEMORY)
+// INTRO + MUSIC (MOBILE SAFE)
 // =====================================
-enterBtn.addEventListener('click', () => {
+enterBtn.addEventListener('click', async () => {
+  intro.classList.remove('active');
   intro.style.display = 'none';
+
   music.volume = 0.5;
   musicStarted = true;
 
-  if (savedMusicState !== 'paused') {
-    music.play()
-      .then(() => localStorage.setItem('musicState', 'playing'))
-      .catch(() => {});
+  try {
+    await music.play();
+    localStorage.setItem('musicState', 'playing');
+  } catch (e) {
+    console.warn('Music autoplay blocked');
   }
 });
 
 // =====================================
-// MUSIC TOGGLE (USER CONTROL)
+// MUSIC TOGGLE
 // =====================================
-musicToggle.addEventListener('click', () => {
+musicToggle.addEventListener('click', async () => {
+  if (!musicStarted) return;
+
   if (music.paused) {
-    music.play().catch(() => {});
+    await music.play().catch(() => {});
     localStorage.setItem('musicState', 'playing');
   } else {
     music.pause();
@@ -46,7 +50,7 @@ musicToggle.addEventListener('click', () => {
 });
 
 // =====================================
-// AUTO PAUSE / RESUME (DESKTOP + MOBILE)
+// AUTO PAUSE / RESUME
 // =====================================
 document.addEventListener('visibilitychange', () => {
   if (!musicStarted) return;
@@ -54,26 +58,6 @@ document.addEventListener('visibilitychange', () => {
   if (document.hidden) {
     music.pause();
   } else if (localStorage.getItem('musicState') === 'playing') {
-    music.play().catch(() => {});
-  }
-});
-
-window.addEventListener('pagehide', () => {
-  if (musicStarted) music.pause();
-});
-
-window.addEventListener('pageshow', () => {
-  if (musicStarted && localStorage.getItem('musicState') === 'playing') {
-    music.play().catch(() => {});
-  }
-});
-
-document.addEventListener('freeze', () => {
-  if (musicStarted) music.pause();
-});
-
-document.addEventListener('resume', () => {
-  if (musicStarted && localStorage.getItem('musicState') === 'playing') {
     music.play().catch(() => {});
   }
 });
@@ -87,7 +71,7 @@ themeToggle.addEventListener('click', () => {
 });
 
 // =====================================
-// VIEW COUNTER (COUNTAPI – FIXED)
+// VIEW COUNTER (COUNTAPI)
 // =====================================
 document.addEventListener("DOMContentLoaded", () => {
   if (!viewsEl) return;
@@ -95,40 +79,18 @@ document.addEventListener("DOMContentLoaded", () => {
   const namespace = "ericsonpauloyt";
   const key = "intracon_city";
 
-  const today = new Date().toDateString();
-  const lastView = localStorage.getItem("lastViewDate");
-
-  const hitUrl = `https://api.countapi.xyz/hit/${namespace}/${key}`;
-  const getUrl = `https://api.countapi.xyz/get/${namespace}/${key}`;
-
-  const updateViewText = (val) => {
-    viewsEl.textContent = `👁️ ${val} views`;
-  };
-
-  if (lastView !== today) {
-    fetch(hitUrl)
-      .then(res => res.json())
-      .then(data => {
-        updateViewText(data.value);
-        localStorage.setItem("lastViewDate", today);
-      })
-      .catch(() => {
-        viewsEl.textContent = "👁️ Views unavailable";
-      });
-  } else {
-    fetch(getUrl)
-      .then(res => res.json())
-      .then(data => {
-        updateViewText(data.value);
-      })
-      .catch(() => {
-        viewsEl.textContent = "👁️ Views unavailable";
-      });
-  }
+  fetch(`https://api.countapi.xyz/hit/${namespace}/${key}`)
+    .then(res => res.json())
+    .then(data => {
+      viewsEl.textContent = `👁️ ${data.value} views`;
+    })
+    .catch(() => {
+      viewsEl.textContent = "👁️ Views unavailable";
+    });
 });
 
 // =====================================
-// YOUTUBE DATA API (LATEST UPLOAD)
+// YOUTUBE API (LATEST UPLOAD)
 // =====================================
 const YT_API_KEY = "PASTE_YOUR_API_KEY_HERE";
 const CHANNEL_ID = "PASTE_CHANNEL_ID_HERE";
@@ -162,7 +124,6 @@ fetch(
         allowfullscreen
       ></iframe>
     `;
-
     ytTitle.innerText = video.snippet.title;
   })
   .catch(() => {
