@@ -1,142 +1,91 @@
-/* RESET */
-* { margin: 0; padding: 0; box-sizing: border-box; }
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Ericson Paulo YT | Intracon City GTA RP</title>
 
-html, body {
-  font-family: 'Orbitron', sans-serif;
-  overflow-x: hidden;
-}
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Ericson Paulo YT – Intracon City GTA Roleplay. High-level criminal, elite carnapping operations." />
 
-/* THEME */
-.theme-dark {
-  --bg: #020617;
-  --text: #e5e7eb;
-  --neon: #22ff88;
-}
+  <!-- Fonts & Bootstrap -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800&display=swap" rel="stylesheet">
 
-body {
-  background: var(--bg);
-  color: var(--text);
-}
+  <link rel="stylesheet" href="style.css">
+</head>
 
-/* BACKGROUND (ANIMATED) */
-@keyframes bgGlow {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
-}
+<body class="theme-dark">
 
-.bg-layer {
-  position: fixed;
-  inset: 0;
-  z-index: -1;
-  background:
-    radial-gradient(circle at 20% 30%, rgba(34,255,136,0.2), transparent 40%),
-    radial-gradient(circle at 80% 70%, rgba(34,255,136,0.12), transparent 45%),
-    linear-gradient(180deg, #020617, #020617);
-  background-size: 200% 200%;
-  animation: bgGlow 18s ease infinite;
-}
+<!-- BACKGROUND -->
+<div class="bg-layer"></div>
 
-/* HERO */
-.hero {
-  padding: 4rem 1rem;
-  text-align: center;
-}
+<!-- HERO -->
+<header class="hero">
+  <img src="logo.png" class="hero-logo" alt="Ericson Paulo YT">
+  <h1 class="hero-title">Ericson Paulo <span>YT</span></h1>
+  <p class="hero-sub">Intracon City • GTA Roleplay</p>
 
-.hero-logo {
-  width: 120px;
-  border-radius: 50%;
-  box-shadow: 0 0 25px var(--neon);
-}
+  <div class="hero-actions">
+    <a href="https://youtube.com/@ericsonpauloyt" target="_blank" class="btn neon-red">YouTube</a>
+    <a href="#links" class="btn neon-outline">Links</a>
+  </div>
+</header>
 
-.hero-title span {
-  color: var(--neon);
-  animation: flicker 6s infinite;
-}
+<!-- RP PROFILE -->
+<section class="section">
+  <h2 class="section-title">RP Profile</h2>
 
-.hero-sub { color: #9ca3af; }
+  <div class="row justify-content-center align-items-center">
+    <div class="col-md-4 text-center">
+      <div class="character-card">
+        <img src="character.png" class="character-img" alt="RP Character">
+      </div>
+    </div>
 
-/* NEON FLICKER */
-@keyframes flicker {
-  0%,100% { opacity: 1; }
-  96% { opacity: .6; }
-  97% { opacity: 1; }
-}
+    <div class="col-md-6">
+      <ul class="rp-list">
+        <li><strong>Name:</strong> Ericson Paulo YT</li>
+        <li><strong>Age:</strong> 23</li>
+        <li><strong>Server:</strong> Intracon City</li>
+        <li><strong>Role:</strong> High-level criminal • Carnapper</li>
+        <li><strong>Specialization:</strong> Elite car theft operations</li>
+      </ul>
 
-/* BUTTONS */
-.btn { border-radius: 999px; padding: .6rem 1.6rem; }
-.neon-red { background: #dc2626; color: #fff; }
-.neon-outline { border: 1px solid var(--neon); color: var(--neon); }
+      <p class="rp-desc">
+        Ericson Paulo YT is a notorious figure in Intracon City’s underground world,
+        known for high-risk carnapping operations and calculated criminal schemes.
+        His rise was shaped during <em>The Fallen</em> era—marked by betrayal,
+        revenge, and survival inside the city.
+      </p>
+    </div>
+  </div>
+</section>
 
-/* SECTIONS */
-.section { padding: 4rem 1rem; text-align: center; }
+<!-- LINKTREE -->
+<section id="links" class="section">
+  <h2 class="section-title">Connect</h2>
 
-.section-title {
-  color: var(--neon);
-  text-shadow: 0 0 12px var(--neon);
-}
+  <div class="links-grid">
+    <a href="https://youtube.com/@ericsonpauloyt" class="link-card">YouTube</a>
+    <a href="https://www.facebook.com/share/1DoHvuvnUc/" class="link-card">Facebook</a>
+    <a href="https://www.tiktok.com/@ericson_paulo" class="link-card">TikTok</a>
+    <a href="#" class="link-card disabled">Discord (Soon)</a>
+  </div>
+</section>
 
-/* CHARACTER */
-@keyframes neonPulse {
-  0%,100% {
-    filter: drop-shadow(0 0 20px rgba(34,255,136,.4));
-  }
-  50% {
-    filter: drop-shadow(0 0 45px rgba(34,255,136,.8));
-  }
-}
+<!-- LATEST VIDEO -->
+<section class="section">
+  <h2 class="section-title">Latest Video</h2>
 
-.character-card { background: transparent; }
+  <div class="ratio ratio-16x9 neon-card">
+    <iframe src="https://www.youtube.com/embed/FGC2fIGL5bU" allowfullscreen></iframe>
+  </div>
+</section>
 
-.character-img {
-  max-width: 280px;
-  aspect-ratio: 4 / 5;
-  object-fit: contain;
-  animation: neonPulse 3.5s infinite;
-}
+<!-- FOOTER -->
+<footer class="footer">
+  © 2026 Ericson Paulo YT • Intracon City
+</footer>
 
-/* RP TEXT */
-.rp-list { list-style: none; padding: 0; }
-.rp-list li { margin-bottom: .4rem; }
-.rp-desc { color: #9ca3af; max-width: 520px; margin: auto; }
-
-/* LINKS */
-.links-grid {
-  display: flex;
-  gap: 1rem;
-  justify-content: center;
-  flex-wrap: wrap;
-}
-
-.link-card {
-  padding: 1rem 2rem;
-  border: 1px solid var(--neon);
-  color: var(--neon);
-  text-decoration: none;
-}
-
-.link-card:hover {
-  background: var(--neon);
-  color: #020617;
-}
-
-.link-card.disabled { opacity: .4; pointer-events: none; }
-
-/* CARDS */
-.neon-card {
-  border-radius: 16px;
-  box-shadow: 0 0 25px rgba(34,255,136,.35);
-  overflow: hidden;
-}
-
-/* FOOTER */
-.footer {
-  padding: 2rem;
-  text-align: center;
-  color: #9ca3af;
-}
-
-/* MOBILE */
-@media (max-width: 576px) {
-  .character-img { max-width: 220px; }
-}
+</body>
+</html>
