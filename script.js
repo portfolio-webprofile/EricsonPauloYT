@@ -94,15 +94,18 @@ document.querySelectorAll('[data-platform]').forEach(btn => {
   }
 
 // =====================================
-// DRAGGABLE FLOATING CONTROLS (POINTER EVENTS)
+// DRAGGABLE FLOATING CONTROLS (CLICK SAFE)
 // =====================================
 (() => {
   const box = document.getElementById('floatingControls');
   if (!box) return;
 
-  let offsetX = 0;
-  let offsetY = 0;
+  let startX = 0, startY = 0;
+  let offsetX = 0, offsetY = 0;
   let dragging = false;
+  let moved = false;
+
+  const DRAG_THRESHOLD = 6; // px
 
   // Restore saved position
   const saved = localStorage.getItem('floatingControlsPos');
@@ -115,46 +118,61 @@ document.querySelectorAll('[data-platform]').forEach(btn => {
   }
 
   box.addEventListener('pointerdown', (e) => {
-    dragging = true;
-    box.setPointerCapture(e.pointerId);
+    // allow buttons to be clickable
+    if (e.target.tagName === 'BUTTON') {
+      moved = false;
+    }
 
     const rect = box.getBoundingClientRect();
+    startX = e.clientX;
+    startY = e.clientY;
+
     offsetX = e.clientX - rect.left;
     offsetY = e.clientY - rect.top;
 
-    // unlock from bottom/right
-    box.style.left = rect.left + 'px';
-    box.style.top = rect.top + 'px';
-    box.style.right = 'auto';
-    box.style.bottom = 'auto';
+    dragging = true;
+    moved = false;
+
+    box.setPointerCapture(e.pointerId);
   });
 
   box.addEventListener('pointermove', (e) => {
     if (!dragging) return;
 
+    const dx = e.clientX - startX;
+    const dy = e.clientY - startY;
+
+    if (!moved && Math.hypot(dx, dy) < DRAG_THRESHOLD) return;
+
+    moved = true;
+
     let x = e.clientX - offsetX;
     let y = e.clientY - offsetY;
 
-    const maxX = window.innerWidth - box.offsetWidth;
-    const maxY = window.innerHeight - box.offsetHeight;
+    const maxX = window.innerWidth - box.offsetWidth - 8;
+    const maxY = window.innerHeight - box.offsetHeight - 8;
 
-    x = Math.max(8, Math.min(maxX - 8, x));
-    y = Math.max(8, Math.min(maxY - 8, y));
+    x = Math.max(8, Math.min(maxX, x));
+    y = Math.max(8, Math.min(maxY, y));
 
     box.style.left = x + 'px';
     box.style.top = y + 'px';
+    box.style.right = 'auto';
+    box.style.bottom = 'auto';
   });
 
   box.addEventListener('pointerup', () => {
     dragging = false;
 
-    localStorage.setItem(
-      'floatingControlsPos',
-      JSON.stringify({
-        left: box.style.left,
-        top: box.style.top
-      })
-    );
+    if (moved) {
+      // Save position ONLY if dragged
+      localStorage.setItem(
+        'floatingControlsPos',
+        JSON.stringify({
+          left: box.style.left,
+          top: box.style.top
+        })
+      );
+    }
   });
-
 })();
