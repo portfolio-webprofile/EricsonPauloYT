@@ -6,10 +6,10 @@ const enterBtn = document.getElementById('enterBtn');
 const music = document.getElementById('bgMusic');
 const musicToggle = document.getElementById('musicToggle');
 const themeToggle = document.getElementById('themeToggle');
-const viewsEl = document.getElementById('views');
 
-const ytContainer = document.getElementById("ytVideo");
-const ytTitle = document.getElementById("ytTitle");
+const viewsEl = document.getElementById('views');
+const ytContainer = document.getElementById('ytVideo');
+const ytTitle = document.getElementById('ytTitle');
 
 // =====================================
 // STATE
@@ -18,7 +18,7 @@ let musicStarted = false;
 const savedMusicState = localStorage.getItem('musicState'); // "playing" | "paused"
 
 // =====================================
-// INTRO + MUSIC START
+// INTRO + MUSIC START (WITH MEMORY)
 // =====================================
 enterBtn.addEventListener('click', () => {
   intro.style.display = 'none';
@@ -48,8 +48,6 @@ musicToggle.addEventListener('click', () => {
 // =====================================
 // AUTO PAUSE / RESUME (DESKTOP + MOBILE)
 // =====================================
-
-// Tab change / minimize
 document.addEventListener('visibilitychange', () => {
   if (!musicStarted) return;
 
@@ -60,36 +58,28 @@ document.addEventListener('visibilitychange', () => {
   }
 });
 
-// Mobile app switch (IMPORTANT)
 window.addEventListener('pagehide', () => {
-  if (!musicStarted) return;
-  music.pause();
+  if (musicStarted) music.pause();
 });
 
 window.addEventListener('pageshow', () => {
-  if (!musicStarted) return;
-
-  if (localStorage.getItem('musicState') === 'playing') {
+  if (musicStarted && localStorage.getItem('musicState') === 'playing') {
     music.play().catch(() => {});
   }
 });
 
-// Chrome Android lifecycle
 document.addEventListener('freeze', () => {
-  if (!musicStarted) return;
-  music.pause();
+  if (musicStarted) music.pause();
 });
 
 document.addEventListener('resume', () => {
-  if (!musicStarted) return;
-
-  if (localStorage.getItem('musicState') === 'playing') {
+  if (musicStarted && localStorage.getItem('musicState') === 'playing') {
     music.play().catch(() => {});
   }
 });
 
 // =====================================
-// THEME TOGGLE (DARK / LIGHT NEON)
+// THEME TOGGLE
 // =====================================
 themeToggle.addEventListener('click', () => {
   document.body.classList.toggle('theme-dark');
@@ -97,16 +87,45 @@ themeToggle.addEventListener('click', () => {
 });
 
 // =====================================
-// VIEW COUNTER (CountAPI)
+// VIEW COUNTER (COUNTAPI – FIXED)
 // =====================================
-fetch('https://api.countapi.xyz/hit/ericsonpauloyt/intracon')
-  .then(res => res.json())
-  .then(data => {
-    viewsEl.innerText = `👁️ ${data.value} views`;
-  })
-  .catch(() => {
-    viewsEl.innerText = '👁️ Views unavailable';
-  });
+document.addEventListener("DOMContentLoaded", () => {
+  if (!viewsEl) return;
+
+  const namespace = "ericsonpauloyt";
+  const key = "intracon_city";
+
+  const today = new Date().toDateString();
+  const lastView = localStorage.getItem("lastViewDate");
+
+  const hitUrl = `https://api.countapi.xyz/hit/${namespace}/${key}`;
+  const getUrl = `https://api.countapi.xyz/get/${namespace}/${key}`;
+
+  const updateViewText = (val) => {
+    viewsEl.textContent = `👁️ ${val} views`;
+  };
+
+  if (lastView !== today) {
+    fetch(hitUrl)
+      .then(res => res.json())
+      .then(data => {
+        updateViewText(data.value);
+        localStorage.setItem("lastViewDate", today);
+      })
+      .catch(() => {
+        viewsEl.textContent = "👁️ Views unavailable";
+      });
+  } else {
+    fetch(getUrl)
+      .then(res => res.json())
+      .then(data => {
+        updateViewText(data.value);
+      })
+      .catch(() => {
+        viewsEl.textContent = "👁️ Views unavailable";
+      });
+  }
+});
 
 // =====================================
 // YOUTUBE DATA API (LATEST UPLOAD)
