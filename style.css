@@ -1,328 +1,107 @@
-/* ==================================================
-   RESET & BASE
-================================================== */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+/* RESET */
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{font-family:'Orbitron',sans-serif;overflow-x:hidden}
+
+/* THEMES */
+.theme-dark{
+  --bg:#020617;
+  --text:#e5e7eb;
+  --neon:#22ff88;
+  --overlay:rgba(2,6,23,0.65);
 }
 
-html, body {
-  width: 100%;
-  overflow-x: hidden;
-  font-family: 'Orbitron', sans-serif;
+.theme-light{
+  --bg:#f1f5f9;
+  --text:#020617;
+  --neon:#16a34a;
+  --overlay:rgba(255,255,255,0.55);
 }
 
-/* ==================================================
-   THEME VARIABLES
-================================================== */
-.theme-dark {
-  --bg: #020617;
-  --text: #e5e7eb;
-  --neon: #22ff88;
-  --neon-dim: rgba(34,255,136,0.4);
+body{
+  background:var(--bg);
+  color:var(--text);
+  transition:background .3s,color .3s;
 }
 
-.theme-light {
-  --bg: #f1f5f9;
-  --text: #020617;
-  --neon: #16a34a;
-  --neon-dim: rgba(22,163,74,0.35);
-}
-
-body {
-  background: var(--bg);
-  color: var(--text);
-}
-
-/* ==================================================
-   BACKGROUND (CITY IMAGE)
-================================================== */
-.bg-layer {
-  position: fixed;
-  inset: 0;
-  z-index: -1;
+/* BACKGROUND IMAGE (MORE VISIBLE) */
+.bg-layer{
+  position:fixed;
+  inset:0;
+  z-index:-1;
   background:
-    linear-gradient(rgba(2,6,23,0.78), rgba(2,6,23,0.9)),
-    url("bg-city.jpg") center / cover no-repeat;
-  filter: blur(2px) brightness(0.6) saturate(1.15);
+    linear-gradient(var(--overlay),var(--overlay)),
+    url("bg-city.jpg") center/cover no-repeat;
+  filter:blur(1px) brightness(.85) contrast(1.1);
 }
 
-/* ==================================================
-   INTRO SCREEN
-================================================== */
-.intro {
-  position: fixed;
-  inset: 0;
-  background: #020617;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  z-index: 9999;
+/* INTRO */
+.intro{
+  position:fixed;
+  inset:0;
+  background:#020617;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  z-index:99999;
 }
 
-.intro-logo {
-  width: 140px;
-  border-radius: 50%;
-  box-shadow: 0 0 35px var(--neon);
+.intro-inner{text-align:center}
+.intro-logo{width:140px;border-radius:50%;box-shadow:0 0 35px var(--neon)}
+.intro-text{color:var(--neon);margin-top:1rem}
+.intro-sub{color:#9ca3af}
+.intro-btn{
+  margin-top:1.5rem;
+  padding:.8rem 2rem;
+  background:var(--neon);
+  border:none;
+  color:#020617;
+  font-weight:700;
 }
 
-.intro-text {
-  margin-top: 1rem;
-  color: var(--neon);
-  text-shadow: 0 0 20px var(--neon);
+/* LOADER */
+.loader span{
+  display:block;
+  width:120px;
+  height:4px;
+  margin:20px auto;
+  background:linear-gradient(90deg,transparent,var(--neon),transparent);
+  animation:load 1.5s infinite;
+}
+@keyframes load{from{transform:translateX(-120px)}to{transform:translateX(120px)}}
+
+/* HERO */
+.hero{text-align:center;padding:4rem 1rem;position:relative}
+.hero-logo{width:120px;border-radius:50%;box-shadow:0 0 25px var(--neon)}
+.hero-title span{color:var(--neon)}
+.hero-sub{color:#9ca3af}
+
+.top-controls{
+  position:absolute;
+  top:1rem;
+  right:1rem;
+}
+.top-controls button{
+  background:none;
+  border:none;
+  color:var(--neon);
+  font-size:1.4rem;
+  margin-left:10px;
+  cursor:pointer;
 }
 
-.loader span {
-  display: block;
-  width: 120px;
-  height: 4px;
-  background: linear-gradient(90deg, transparent, var(--neon), transparent);
-  animation: load 1.5s infinite;
-  margin-top: 20px;
+/* SECTIONS */
+.section{text-align:center;padding:4rem 1rem}
+.section-title{color:var(--neon);margin-bottom:2rem}
+
+/* CHARACTER */
+.character-img{
+  max-width:260px;
+  animation:pulse 3.5s infinite;
+}
+@keyframes pulse{
+  0%,100%{filter:drop-shadow(0 0 20px rgba(34,255,136,.4))}
+  50%{filter:drop-shadow(0 0 50px rgba(34,255,136,.8))}
 }
 
-@keyframes load {
-  from { transform: translateX(-120px); }
-  to   { transform: translateX(120px); }
-}
-
-/* ==================================================
-   NEON ANIMATIONS
-================================================== */
-@keyframes neonFlicker {
-  0%,100% {
-    opacity: 1;
-    text-shadow:
-      0 0 8px var(--neon),
-      0 0 18px var(--neon),
-      0 0 35px var(--neon-dim);
-  }
-  95% { opacity: .85; }
-  96% { opacity: .4; }
-  97% { opacity: 1; }
-  98% { opacity: .6; }
-}
-
-@keyframes neonPulse {
-  0%,100% {
-    filter:
-      drop-shadow(0 0 18px var(--neon-dim))
-      drop-shadow(0 0 40px rgba(34,255,136,0.2));
-  }
-  50% {
-    filter:
-      drop-shadow(0 0 35px rgba(34,255,136,0.8))
-      drop-shadow(0 0 80px rgba(34,255,136,0.4));
-  }
-}
-
-/* ==================================================
-   HERO
-================================================== */
-.hero {
-  padding: 4rem 1rem;
-  text-align: center;
-  position: relative;
-}
-
-.hero-logo {
-  width: 120px;
-  border-radius: 50%;
-  box-shadow: 0 0 25px var(--neon);
-}
-
-.hero-title {
-  font-size: 2.4rem;
-  margin-top: 1rem;
-}
-
-.hero-title span {
-  color: var(--neon);
-  animation: neonFlicker 6s infinite;
-}
-
-.hero-sub {
-  color: #9ca3af;
-}
-
-.hero-actions {
-  margin-top: 1.5rem;
-}
-
-.top-controls {
-  position: absolute;
-  top: 1rem;
-  right: 1rem;
-}
-
-.top-controls button {
-  background: none;
-  border: none;
-  color: var(--neon);
-  font-size: 1.3rem;
-  margin-left: 10px;
-  cursor: pointer;
-}
-
-/* ==================================================
-   SECTIONS
-================================================== */
-.section {
-  padding: 4rem 1rem;
-  text-align: center;
-}
-
-.section-title {
-  color: var(--neon);
-  margin-bottom: 2rem;
-  text-shadow: 0 0 12px var(--neon);
-  animation: neonFlicker 7s infinite;
-}
-
-/* ==================================================
-   CHARACTER (TRANSPARENT PNG)
-================================================== */
-.character-card {
-  background: transparent !important;
-}
-
-.character-img {
-  width: 100%;
-  max-width: 280px;
-  aspect-ratio: 4 / 5;
-  object-fit: contain;
-  background: transparent !important;
-  animation: neonPulse 3.5s ease-in-out infinite;
-}
-
-/* ==================================================
-   RP PROFILE TEXT
-================================================== */
-.rp-list {
-  list-style: none;
-  padding: 0;
-  margin-bottom: 1rem;
-}
-
-.rp-list li {
-  margin-bottom: 0.4rem;
-}
-
-.rp-desc {
-  color: #9ca3af;
-  max-width: 520px;
-  margin: auto;
-}
-
-/* ==================================================
-   LINKTREE
-================================================== */
-.links-grid {
-  display: flex;
-  gap: 1rem;
-  justify-content: center;
-  flex-wrap: wrap;
-}
-
-.link-card {
-  padding: 1rem 2rem;
-  border: 1px solid var(--neon);
-  color: var(--neon);
-  text-decoration: none;
-}
-
-.link-card:hover {
-  background: var(--neon);
-  color: #020617;
-}
-
-.link-card.disabled {
-  opacity: 0.4;
-  pointer-events: none;
-}
-
-/* ==================================================
-   VIDEO CARD
-================================================== */
-.neon-card {
-  border-radius: 16px;
-  box-shadow: 0 0 25px rgba(34,255,136,0.35);
-  overflow: hidden;
-}
-
-.yt-title {
-  margin-top: 1rem;
-  color: #9ca3af;
-}
-
-/* ==================================================
-   🔥 GALLERY (SUBTLE / HIDDEN)
-================================================== */
-.gallery-section {
-  opacity: 0.85;
-}
-
-.section-title.subtle {
-  font-size: 1.2rem;
-  opacity: 0.6;
-}
-
-.gallery-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 14px;
-  max-width: 900px;
-  margin: auto;
-}
-
-.gallery-grid img {
-  width: 100%;
-  aspect-ratio: 16 / 9;
-  object-fit: cover;
-  border-radius: 12px;
-  filter: brightness(0.55) saturate(0.8);
-  transition: all 0.4s ease;
-}
-
-.gallery-grid img:hover {
-  filter: brightness(1) saturate(1.2);
-  transform: scale(1.03);
-  box-shadow: 0 0 30px rgba(34,255,136,0.4);
-}
-
-/* ==================================================
-   FOOTER
-================================================== */
-.footer {
-  padding: 2rem;
-  text-align: center;
-  color: #9ca3af;
-}
-
-/* ==================================================
-   MOBILE
-================================================== */
-@media (max-width: 768px) {
-  .gallery-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .hero-title {
-    font-size: 2rem;
-  }
-
-  .character-img {
-    max-width: 220px;
-  }
-}
-
-/* ==================================================
-   PERFORMANCE SAFETY
-================================================== */
-@media (prefers-reduced-motion: reduce) {
-  * {
-    animation: none !important;
-  }
-}
+/* FOOTER */
+.footer{text-align:center;padding:2rem;color:#9ca3af}
