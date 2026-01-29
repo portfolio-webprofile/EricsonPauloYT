@@ -1,6 +1,6 @@
-/* ============================
+/* ==================================================
    RESET & BASE
-============================ */
+================================================== */
 * {
   margin: 0;
   padding: 0;
@@ -13,13 +13,21 @@ html, body {
   font-family: 'Orbitron', sans-serif;
 }
 
-/* ============================
-   THEME
-============================ */
+/* ==================================================
+   THEME VARIABLES
+================================================== */
 .theme-dark {
   --bg: #020617;
   --text: #e5e7eb;
   --neon: #22ff88;
+  --neon-dim: rgba(34,255,136,0.4);
+}
+
+.theme-light {
+  --bg: #f1f5f9;
+  --text: #020617;
+  --neon: #16a34a;
+  --neon-dim: rgba(22,163,74,0.35);
 }
 
 body {
@@ -27,60 +35,96 @@ body {
   color: var(--text);
 }
 
-/* ============================
-   CITY BACKGROUND (IMAGE)
-============================ */
+/* ==================================================
+   BACKGROUND (CITY IMAGE)
+================================================== */
 .bg-layer {
   position: fixed;
   inset: 0;
   z-index: -1;
-
   background:
-    linear-gradient(
-      rgba(2,6,23,0.75),
-      rgba(2,6,23,0.88)
-    ),
+    linear-gradient(rgba(2,6,23,0.78), rgba(2,6,23,0.9)),
     url("bg-city.jpg") center / cover no-repeat;
-
-  filter: blur(2px) brightness(0.6) saturate(1.2);
+  filter: blur(2px) brightness(0.6) saturate(1.15);
 }
 
-/* ============================
+/* ==================================================
+   INTRO SCREEN
+================================================== */
+.intro {
+  position: fixed;
+  inset: 0;
+  background: #020617;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+
+.intro-logo {
+  width: 140px;
+  border-radius: 50%;
+  box-shadow: 0 0 35px var(--neon);
+}
+
+.intro-text {
+  margin-top: 1rem;
+  color: var(--neon);
+  text-shadow: 0 0 20px var(--neon);
+}
+
+.loader span {
+  display: block;
+  width: 120px;
+  height: 4px;
+  background: linear-gradient(90deg, transparent, var(--neon), transparent);
+  animation: load 1.5s infinite;
+  margin-top: 20px;
+}
+
+@keyframes load {
+  from { transform: translateX(-120px); }
+  to   { transform: translateX(120px); }
+}
+
+/* ==================================================
    NEON ANIMATIONS
-============================ */
+================================================== */
 @keyframes neonFlicker {
-  0%, 100% {
+  0%,100% {
     opacity: 1;
     text-shadow:
-      0 0 8px #22ff88,
-      0 0 18px #22ff88,
-      0 0 35px rgba(34,255,136,0.8);
+      0 0 8px var(--neon),
+      0 0 18px var(--neon),
+      0 0 35px var(--neon-dim);
   }
-  95% { opacity: 0.85; }
-  96% { opacity: 0.4; }
+  95% { opacity: .85; }
+  96% { opacity: .4; }
   97% { opacity: 1; }
-  98% { opacity: 0.6; }
+  98% { opacity: .6; }
 }
 
 @keyframes neonPulse {
-  0%, 100% {
+  0%,100% {
     filter:
-      drop-shadow(0 0 18px rgba(34,255,136,0.4))
+      drop-shadow(0 0 18px var(--neon-dim))
       drop-shadow(0 0 40px rgba(34,255,136,0.2));
   }
   50% {
     filter:
-      drop-shadow(0 0 30px rgba(34,255,136,0.75))
-      drop-shadow(0 0 80px rgba(34,255,136,0.35));
+      drop-shadow(0 0 35px rgba(34,255,136,0.8))
+      drop-shadow(0 0 80px rgba(34,255,136,0.4));
   }
 }
 
-/* ============================
+/* ==================================================
    HERO
-============================ */
+================================================== */
 .hero {
   padding: 4rem 1rem;
   text-align: center;
+  position: relative;
 }
 
 .hero-logo {
@@ -96,7 +140,7 @@ body {
 
 .hero-title span {
   color: var(--neon);
-  animation: neonFlicker 5.5s infinite;
+  animation: neonFlicker 6s infinite;
 }
 
 .hero-sub {
@@ -107,9 +151,24 @@ body {
   margin-top: 1.5rem;
 }
 
-/* ============================
+.top-controls {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+}
+
+.top-controls button {
+  background: none;
+  border: none;
+  color: var(--neon);
+  font-size: 1.3rem;
+  margin-left: 10px;
+  cursor: pointer;
+}
+
+/* ==================================================
    SECTIONS
-============================ */
+================================================== */
 .section {
   padding: 4rem 1rem;
   text-align: center;
@@ -118,12 +177,13 @@ body {
 .section-title {
   color: var(--neon);
   margin-bottom: 2rem;
-  animation: neonFlicker 6s infinite;
+  text-shadow: 0 0 12px var(--neon);
+  animation: neonFlicker 7s infinite;
 }
 
-/* ============================
+/* ==================================================
    CHARACTER (TRANSPARENT PNG)
-============================ */
+================================================== */
 .character-card {
   background: transparent !important;
 }
@@ -132,20 +192,14 @@ body {
   width: 100%;
   max-width: 280px;
   aspect-ratio: 4 / 5;
-
   object-fit: contain;
-  object-position: center;
-
   background: transparent !important;
-  transform: none !important;
-  border-radius: 0;
-
   animation: neonPulse 3.5s ease-in-out infinite;
 }
 
-/* ============================
+/* ==================================================
    RP PROFILE TEXT
-============================ */
+================================================== */
 .rp-list {
   list-style: none;
   padding: 0;
@@ -162,9 +216,9 @@ body {
   margin: auto;
 }
 
-/* ============================
+/* ==================================================
    LINKTREE
-============================ */
+================================================== */
 .links-grid {
   display: flex;
   gap: 1rem;
@@ -189,28 +243,72 @@ body {
   pointer-events: none;
 }
 
-/* ============================
-   VIDEO
-============================ */
+/* ==================================================
+   VIDEO CARD
+================================================== */
 .neon-card {
   border-radius: 16px;
   box-shadow: 0 0 25px rgba(34,255,136,0.35);
   overflow: hidden;
 }
 
-/* ============================
+.yt-title {
+  margin-top: 1rem;
+  color: #9ca3af;
+}
+
+/* ==================================================
+   🔥 GALLERY (SUBTLE / HIDDEN)
+================================================== */
+.gallery-section {
+  opacity: 0.85;
+}
+
+.section-title.subtle {
+  font-size: 1.2rem;
+  opacity: 0.6;
+}
+
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+  max-width: 900px;
+  margin: auto;
+}
+
+.gallery-grid img {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  border-radius: 12px;
+  filter: brightness(0.55) saturate(0.8);
+  transition: all 0.4s ease;
+}
+
+.gallery-grid img:hover {
+  filter: brightness(1) saturate(1.2);
+  transform: scale(1.03);
+  box-shadow: 0 0 30px rgba(34,255,136,0.4);
+}
+
+/* ==================================================
    FOOTER
-============================ */
+================================================== */
 .footer {
   padding: 2rem;
   text-align: center;
   color: #9ca3af;
 }
 
-/* ============================
+/* ==================================================
    MOBILE
-============================ */
-@media (max-width: 576px) {
+================================================== */
+@media (max-width: 768px) {
+  .gallery-grid {
+    grid-template-columns: 1fr;
+  }
+
   .hero-title {
     font-size: 2rem;
   }
@@ -220,9 +318,9 @@ body {
   }
 }
 
-/* ============================
+/* ==================================================
    PERFORMANCE SAFETY
-============================ */
+================================================== */
 @media (prefers-reduced-motion: reduce) {
   * {
     animation: none !important;
