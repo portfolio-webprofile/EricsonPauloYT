@@ -91,3 +91,97 @@ document.querySelectorAll('[data-platform]').forEach(btn => {
     }, 1200);
   });
 });
+// =====================================
+// DRAGGABLE FLOATING CONTROLS (DESKTOP + MOBILE)
+// =====================================
+(function () {
+  const box = document.getElementById('floatingControls');
+  if (!box) return;
+
+  let isDragging = false;
+  let startX, startY, startLeft, startTop;
+
+  const getPoint = (e) => {
+    if (e.touches && e.touches[0]) {
+      return { x: e.touches[0].clientX, y: e.touches[0].clientY };
+    }
+    return { x: e.clientX, y: e.clientY };
+  };
+
+  const startDrag = (e) => {
+    // prevent accidental click while dragging
+    if (e.target.tagName === 'BUTTON') return;
+
+    isDragging = true;
+
+    const point = getPoint(e);
+    startX = point.x;
+    startY = point.y;
+
+    const rect = box.getBoundingClientRect();
+    startLeft = rect.left;
+    startTop = rect.top;
+
+    box.style.left = startLeft + 'px';
+    box.style.top = startTop + 'px';
+    box.style.right = 'auto';
+    box.style.bottom = 'auto';
+
+    e.preventDefault();
+  };
+
+  const drag = (e) => {
+    if (!isDragging) return;
+
+    const point = getPoint(e);
+    const dx = point.x - startX;
+    const dy = point.y - startY;
+
+    let newLeft = startLeft + dx;
+    let newTop = startTop + dy;
+
+    // keep inside viewport
+    const maxX = window.innerWidth - box.offsetWidth;
+    const maxY = window.innerHeight - box.offsetHeight;
+
+    newLeft = Math.max(8, Math.min(maxX - 8, newLeft));
+    newTop = Math.max(8, Math.min(maxY - 8, newTop));
+
+    box.style.left = newLeft + 'px';
+    box.style.top = newTop + 'px';
+  };
+
+  const endDrag = () => {
+    if (!isDragging) return;
+    isDragging = false;
+
+    // save position
+    localStorage.setItem(
+      'floatingControlsPos',
+      JSON.stringify({
+        left: box.style.left,
+        top: box.style.top
+      })
+    );
+  };
+
+  // Restore saved position
+  const saved = localStorage.getItem('floatingControlsPos');
+  if (saved) {
+    const pos = JSON.parse(saved);
+    box.style.left = pos.left;
+    box.style.top = pos.top;
+    box.style.right = 'auto';
+    box.style.bottom = 'auto';
+  }
+
+  // Mouse events
+  box.addEventListener('mousedown', startDrag);
+  document.addEventListener('mousemove', drag);
+  document.addEventListener('mouseup', endDrag);
+
+  // Touch events
+  box.addEventListener('touchstart', startDrag, { passive: false });
+  document.addEventListener('touchmove', drag, { passive: false });
+  document.addEventListener('touchend', endDrag);
+})();
