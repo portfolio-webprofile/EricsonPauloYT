@@ -92,14 +92,15 @@ document.querySelectorAll('[data-platform]').forEach(btn => {
   });
 });
 // =====================================
-// DRAGGABLE FLOATING CONTROLS (DESKTOP + MOBILE)
+// DRAGGABLE FLOATING CONTROLS (FIXED)
 // =====================================
 (function () {
   const box = document.getElementById('floatingControls');
   if (!box) return;
 
   let isDragging = false;
-  let startX, startY, startLeft, startTop;
+  let startX = 0, startY = 0;
+  let startLeft = 0, startTop = 0;
 
   const getPoint = (e) => {
     if (e.touches && e.touches[0]) {
@@ -109,10 +110,8 @@ document.querySelectorAll('[data-platform]').forEach(btn => {
   };
 
   const startDrag = (e) => {
-    // prevent accidental click while dragging
-    if (e.target.tagName === 'BUTTON') return;
-
     isDragging = true;
+    box.classList.add('dragging');
 
     const point = getPoint(e);
     startX = point.x;
@@ -122,6 +121,7 @@ document.querySelectorAll('[data-platform]').forEach(btn => {
     startLeft = rect.left;
     startTop = rect.top;
 
+    // 🔴 THIS IS THE KEY
     box.style.left = startLeft + 'px';
     box.style.top = startTop + 'px';
     box.style.right = 'auto';
@@ -134,18 +134,14 @@ document.querySelectorAll('[data-platform]').forEach(btn => {
     if (!isDragging) return;
 
     const point = getPoint(e);
-    const dx = point.x - startX;
-    const dy = point.y - startY;
+    let newLeft = startLeft + (point.x - startX);
+    let newTop = startTop + (point.y - startY);
 
-    let newLeft = startLeft + dx;
-    let newTop = startTop + dy;
+    const maxX = window.innerWidth - box.offsetWidth - 8;
+    const maxY = window.innerHeight - box.offsetHeight - 8;
 
-    // keep inside viewport
-    const maxX = window.innerWidth - box.offsetWidth;
-    const maxY = window.innerHeight - box.offsetHeight;
-
-    newLeft = Math.max(8, Math.min(maxX - 8, newLeft));
-    newTop = Math.max(8, Math.min(maxY - 8, newTop));
+    newLeft = Math.max(8, Math.min(maxX, newLeft));
+    newTop = Math.max(8, Math.min(maxY, newTop));
 
     box.style.left = newLeft + 'px';
     box.style.top = newTop + 'px';
@@ -154,8 +150,9 @@ document.querySelectorAll('[data-platform]').forEach(btn => {
   const endDrag = () => {
     if (!isDragging) return;
     isDragging = false;
+    box.classList.remove('dragging');
 
-    // save position
+    // Save position
     localStorage.setItem(
       'floatingControlsPos',
       JSON.stringify({
@@ -165,7 +162,7 @@ document.querySelectorAll('[data-platform]').forEach(btn => {
     );
   };
 
-  // Restore saved position
+  // Restore position
   const saved = localStorage.getItem('floatingControlsPos');
   if (saved) {
     const pos = JSON.parse(saved);
@@ -175,12 +172,11 @@ document.querySelectorAll('[data-platform]').forEach(btn => {
     box.style.bottom = 'auto';
   }
 
-  // Mouse events
+  // EVENTS
   box.addEventListener('mousedown', startDrag);
   document.addEventListener('mousemove', drag);
   document.addEventListener('mouseup', endDrag);
 
-  // Touch events
   box.addEventListener('touchstart', startDrag, { passive: false });
   document.addEventListener('touchmove', drag, { passive: false });
   document.addEventListener('touchend', endDrag);
