@@ -95,7 +95,7 @@ fetch('https://api.countapi.xyz/hit/ericsonpauloyt/intracon_city')
 /* ===============================
    YOUTUBE LATEST UPLOAD (NO API)
 ================================ */
-const channelId = "UCy8Wjz8c1d9G5k0dZzKpQxQ";
+const channelId = "UCGnUHrWuKEuV08RpFKRrIYA";
 document.getElementById('ytVideo').innerHTML = `
 <iframe
   src="https://www.youtube.com/embed?listType=user_uploads&list=${channelId}"
