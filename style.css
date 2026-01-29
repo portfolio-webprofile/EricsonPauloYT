@@ -10,7 +10,7 @@ body{background:var(--bg);color:var(--text);transition:.3s}
 /* BACKGROUND */
 .bg-layer{
   position:fixed;inset:0;z-index:-1;
-  background:url("bg-city.jpg") center/cover no-repeat;
+  background:url("bg-city.png") center/cover no-repeat;
   filter:brightness(.95) contrast(1.05);
 }
 
