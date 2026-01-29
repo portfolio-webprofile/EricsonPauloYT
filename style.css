@@ -1,3 +1,6 @@
+/* ============================
+   RESET & BASE
+============================ */
 * {
   margin: 0;
   padding: 0;
@@ -10,18 +13,21 @@ html, body {
   font-family: 'Orbitron', sans-serif;
 }
 
+/* ============================
+   THEME VARIABLES
+============================ */
 .theme-dark {
   --bg: #020617;
   --text: #e5e7eb;
   --neon: #22ff88;
-  --card: rgba(2,6,23,0.85);
+  --card: rgba(2, 6, 23, 0.85);
 }
 
 .theme-light {
   --bg: #e5e7eb;
   --text: #020617;
   --neon: #16a34a;
-  --card: rgba(255,255,255,0.85);
+  --card: rgba(255, 255, 255, 0.85);
 }
 
 body {
@@ -29,16 +35,25 @@ body {
   color: var(--text);
 }
 
-/* BACKGROUND */
+/* ============================
+   PAGE BACKGROUND (NO IMAGE)
+============================ */
 .bg-layer {
   position: fixed;
   inset: 0;
-  background: url('bg-city.jpg') center/cover no-repeat;
-  filter: blur(6px) brightness(0.45);
   z-index: -1;
+
+  background:
+    radial-gradient(circle at 20% 30%, rgba(34,255,136,0.18), transparent 40%),
+    radial-gradient(circle at 80% 70%, rgba(34,255,136,0.12), transparent 45%),
+    linear-gradient(180deg, #020617 0%, #020617 100%);
+
+  filter: brightness(0.9);
 }
 
-/* INTRO */
+/* ============================
+   INTRO SCREEN
+============================ */
 .intro {
   position: fixed;
   inset: 0;
@@ -76,7 +91,9 @@ body {
   to { transform: translateX(120px); }
 }
 
-/* HERO */
+/* ============================
+   HERO
+============================ */
 .hero {
   padding: 4rem 1rem;
   text-align: center;
@@ -121,7 +138,9 @@ body {
   cursor: pointer;
 }
 
-/* SECTIONS */
+/* ============================
+   SECTIONS
+============================ */
 .section {
   padding: 4rem 1rem;
   text-align: center;
@@ -130,26 +149,61 @@ body {
 .section-title {
   color: var(--neon);
   margin-bottom: 2rem;
-  text-shadow: 0 0 10px var(--neon);
+  text-shadow: 0 0 12px var(--neon);
 }
 
-/* RP */
-.character {
-  max-width: 260px;
-  transform: rotate(90deg);
+/* ============================
+   RP CHARACTER IMAGE (FINAL)
+============================ */
+.character-img {
+  width: 100%;
+  max-width: 280px;
+  aspect-ratio: 4 / 5;
+
+  /* Transparent PNG safe */
+  object-fit: contain;
+  object-position: center;
+  transform: none !important;
+
+  border-radius: 20px;
+
+  /* Neon glow only (no box bg) */
+  filter:
+    drop-shadow(0 0 20px rgba(34,255,136,0.45))
+    drop-shadow(0 0 55px rgba(34,255,136,0.25));
+
+  transition: transform 0.3s ease, filter 0.3s ease;
 }
 
+.character-img:hover {
+  transform: scale(1.04);
+  filter:
+    drop-shadow(0 0 30px rgba(34,255,136,0.65))
+    drop-shadow(0 0 80px rgba(34,255,136,0.35));
+}
+
+/* ============================
+   RP PROFILE TEXT
+============================ */
 .rp-list {
   list-style: none;
   padding: 0;
+  margin-bottom: 1rem;
+}
+
+.rp-list li {
+  margin-bottom: 0.4rem;
 }
 
 .rp-desc {
   color: #9ca3af;
-  margin-top: 1rem;
+  max-width: 520px;
+  margin: auto;
 }
 
-/* LINKS */
+/* ============================
+   LINKTREE
+============================ */
 .links-grid {
   display: flex;
   gap: 1rem;
@@ -175,7 +229,9 @@ body {
   pointer-events: none;
 }
 
-/* VIDEO */
+/* ============================
+   VIDEO
+============================ */
 .yt-title {
   margin-top: 1rem;
   color: #9ca3af;
@@ -188,14 +244,18 @@ body {
   color: var(--neon);
 }
 
-/* CARDS */
+/* ============================
+   CARDS
+============================ */
 .neon-card {
   background: var(--card);
-  border-radius: 15px;
+  border-radius: 16px;
   box-shadow: 0 0 25px rgba(34,255,136,0.35);
 }
 
-/* BUTTONS */
+/* ============================
+   BUTTONS
+============================ */
 .btn {
   border-radius: 999px;
   padding: 0.6rem 1.6rem;
@@ -219,9 +279,24 @@ body {
   color: var(--neon);
 }
 
-/* FOOTER */
+/* ============================
+   FOOTER
+============================ */
 .footer {
   padding: 2rem;
   text-align: center;
   color: #9ca3af;
+}
+
+/* ============================
+   MOBILE
+============================ */
+@media (max-width: 576px) {
+  .hero-title {
+    font-size: 2rem;
+  }
+
+  .character-img {
+    max-width: 220px;
+  }
 }
