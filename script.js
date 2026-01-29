@@ -1,26 +1,40 @@
-// =============================
-// INTRO + MUSIC (WITH MEMORY)
-// =============================
+// =====================================
+// ELEMENT REFERENCES
+// =====================================
 const intro = document.getElementById('intro');
 const enterBtn = document.getElementById('enterBtn');
 const music = document.getElementById('bgMusic');
 const musicToggle = document.getElementById('musicToggle');
+const themeToggle = document.getElementById('themeToggle');
+const viewsEl = document.getElementById('views');
 
+const ytContainer = document.getElementById("ytVideo");
+const ytTitle = document.getElementById("ytTitle");
+
+// =====================================
+// STATE
+// =====================================
 let musicStarted = false;
-const savedMusicState = localStorage.getItem('musicState'); // playing | paused
+const savedMusicState = localStorage.getItem('musicState'); // "playing" | "paused"
 
+// =====================================
+// INTRO + MUSIC START
+// =====================================
 enterBtn.addEventListener('click', () => {
   intro.style.display = 'none';
   music.volume = 0.5;
   musicStarted = true;
 
   if (savedMusicState !== 'paused') {
-    music.play().then(() => {
-      localStorage.setItem('musicState', 'playing');
-    }).catch(() => {});
+    music.play()
+      .then(() => localStorage.setItem('musicState', 'playing'))
+      .catch(() => {});
   }
 });
 
+// =====================================
+// MUSIC TOGGLE (USER CONTROL)
+// =====================================
 musicToggle.addEventListener('click', () => {
   if (music.paused) {
     music.play().catch(() => {});
@@ -31,8 +45,14 @@ musicToggle.addEventListener('click', () => {
   }
 });
 
+// =====================================
+// AUTO PAUSE / RESUME (DESKTOP + MOBILE)
+// =====================================
+
+// Tab change / minimize
 document.addEventListener('visibilitychange', () => {
   if (!musicStarted) return;
+
   if (document.hidden) {
     music.pause();
   } else if (localStorage.getItem('musicState') === 'playing') {
@@ -40,44 +60,59 @@ document.addEventListener('visibilitychange', () => {
   }
 });
 
-window.addEventListener('blur', () => {
-  if (musicStarted) music.pause();
+// Mobile app switch (IMPORTANT)
+window.addEventListener('pagehide', () => {
+  if (!musicStarted) return;
+  music.pause();
 });
 
-window.addEventListener('focus', () => {
-  if (musicStarted && localStorage.getItem('musicState') === 'playing') {
+window.addEventListener('pageshow', () => {
+  if (!musicStarted) return;
+
+  if (localStorage.getItem('musicState') === 'playing') {
     music.play().catch(() => {});
   }
 });
 
-// =============================
-// THEME TOGGLE
-// =============================
-document.getElementById('themeToggle').addEventListener('click', () => {
-  document.body.classList.toggle('theme-light');
-  document.body.classList.toggle('theme-dark');
+// Chrome Android lifecycle
+document.addEventListener('freeze', () => {
+  if (!musicStarted) return;
+  music.pause();
 });
 
-// =============================
+document.addEventListener('resume', () => {
+  if (!musicStarted) return;
+
+  if (localStorage.getItem('musicState') === 'playing') {
+    music.play().catch(() => {});
+  }
+});
+
+// =====================================
+// THEME TOGGLE (DARK / LIGHT NEON)
+// =====================================
+themeToggle.addEventListener('click', () => {
+  document.body.classList.toggle('theme-dark');
+  document.body.classList.toggle('theme-light');
+});
+
+// =====================================
 // VIEW COUNTER (CountAPI)
-// =============================
+// =====================================
 fetch('https://api.countapi.xyz/hit/ericsonpauloyt/intracon')
   .then(res => res.json())
   .then(data => {
-    document.getElementById('views').innerText = `👁️ ${data.value} views`;
+    viewsEl.innerText = `👁️ ${data.value} views`;
   })
   .catch(() => {
-    document.getElementById('views').innerText = '👁️ Views unavailable';
+    viewsEl.innerText = '👁️ Views unavailable';
   });
 
-// =============================
-// YOUTUBE DATA API (LATEST)
-// =============================
+// =====================================
+// YOUTUBE DATA API (LATEST UPLOAD)
+// =====================================
 const YT_API_KEY = "PASTE_YOUR_API_KEY_HERE";
 const CHANNEL_ID = "PASTE_CHANNEL_ID_HERE";
-
-const ytContainer = document.getElementById("ytVideo");
-const ytTitle = document.getElementById("ytTitle");
 
 fetch(
   `https://www.googleapis.com/youtube/v3/search?` +
@@ -101,9 +136,14 @@ fetch(
     }
 
     const videoId = video.id.videoId;
+
     ytContainer.innerHTML = `
-      <iframe src="https://www.youtube.com/embed/${videoId}" allowfullscreen></iframe>
+      <iframe
+        src="https://www.youtube.com/embed/${videoId}"
+        allowfullscreen
+      ></iframe>
     `;
+
     ytTitle.innerText = video.snippet.title;
   })
   .catch(() => {
