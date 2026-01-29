@@ -131,12 +131,29 @@ body{background:var(--bg);color:var(--text);transition:.3s}
     right: 1rem;
   }
 }
-/* ================= DRAGGABLE FLOATING CONTROLS ================= */
+/* ================= FLOATING CONTROLS (DRAGGABLE) ================= */
 .floating-controls {
-  touch-action: none; /* IMPORTANT for mobile drag */
+  position: fixed;
+
+  /* DEFAULT POSITION (pag first load lang) */
+  right: 1.2rem;
+  bottom: 1.2rem;
+
+  z-index: 9999;
+  display: flex;
+  gap: .6rem;
+
+  background: rgba(2, 6, 23, 0.65);
+  backdrop-filter: blur(10px);
+
+  padding: .6rem .8rem;
+  border-radius: 999px;
+  box-shadow: 0 0 25px rgba(34,255,136,.35);
+
+  touch-action: none;   /* REQUIRED for mobile drag */
   cursor: grab;
 }
 
-.floating-controls:active {
+.floating-controls.dragging {
   cursor: grabbing;
 }
