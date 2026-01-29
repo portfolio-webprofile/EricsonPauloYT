@@ -62,3 +62,33 @@ body{background:var(--bg);color:var(--text);transition:.3s}
 @media(max-width:768px){
   .gallery-grid{grid-template-columns:1fr}
 }
+/* ================= SOCIAL LINKS ================= */
+.links-grid {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.link-card {
+  padding: 1rem 2rem;
+  border-radius: 14px;
+  border: 1px solid var(--neon);
+  color: var(--neon);
+  text-decoration: none;
+  font-weight: 600;
+  transition: all .25s ease;
+  backdrop-filter: blur(6px);
+}
+
+.link-card:hover {
+  background: var(--neon);
+  color: #020617;
+  box-shadow: 0 0 25px rgba(34,255,136,.6);
+}
+
+/* Optional subtle branding */
+.link-card.youtube { border-color: #ff0000; }
+.link-card.facebook { border-color: #1877f2; }
+.link-card.tiktok { border-color: #ffffff; }
+.link-card.discord { border-color: #5865F2; }
