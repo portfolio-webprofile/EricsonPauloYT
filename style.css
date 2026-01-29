@@ -1,5 +1,5 @@
 /* ============================
-   RESET & BASE
+   RESET
 ============================ */
 * {
   margin: 0;
@@ -14,20 +14,12 @@ html, body {
 }
 
 /* ============================
-   THEME VARIABLES
+   THEME
 ============================ */
 .theme-dark {
   --bg: #020617;
   --text: #e5e7eb;
   --neon: #22ff88;
-  --card: rgba(2, 6, 23, 0.85);
-}
-
-.theme-light {
-  --bg: #e5e7eb;
-  --text: #020617;
-  --neon: #16a34a;
-  --card: rgba(255, 255, 255, 0.85);
 }
 
 body {
@@ -36,7 +28,7 @@ body {
 }
 
 /* ============================
-   PAGE BACKGROUND (NO IMAGE)
+   BACKGROUND (NO IMAGE)
 ============================ */
 .bg-layer {
   position: fixed;
@@ -47,48 +39,6 @@ body {
     radial-gradient(circle at 20% 30%, rgba(34,255,136,0.18), transparent 40%),
     radial-gradient(circle at 80% 70%, rgba(34,255,136,0.12), transparent 45%),
     linear-gradient(180deg, #020617 0%, #020617 100%);
-
-  filter: brightness(0.9);
-}
-
-/* ============================
-   INTRO SCREEN
-============================ */
-.intro {
-  position: fixed;
-  inset: 0;
-  background: #020617;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  z-index: 9999;
-}
-
-.intro-logo {
-  width: 140px;
-  border-radius: 50%;
-  box-shadow: 0 0 30px var(--neon);
-}
-
-.intro-text {
-  margin-top: 1rem;
-  color: var(--neon);
-  text-shadow: 0 0 15px var(--neon);
-}
-
-.loader span {
-  display: block;
-  width: 120px;
-  height: 4px;
-  background: linear-gradient(90deg, transparent, var(--neon), transparent);
-  animation: load 1.5s infinite;
-  margin-top: 20px;
-}
-
-@keyframes load {
-  from { transform: translateX(-120px); }
-  to { transform: translateX(120px); }
 }
 
 /* ============================
@@ -97,17 +47,16 @@ body {
 .hero {
   padding: 4rem 1rem;
   text-align: center;
-  position: relative;
 }
 
 .hero-logo {
-  width: 130px;
+  width: 120px;
   border-radius: 50%;
   box-shadow: 0 0 25px var(--neon);
 }
 
 .hero-title {
-  font-size: 2.5rem;
+  font-size: 2.4rem;
   margin-top: 1rem;
 }
 
@@ -117,25 +66,6 @@ body {
 
 .hero-sub {
   color: #9ca3af;
-}
-
-.hero-actions {
-  margin-top: 1.5rem;
-}
-
-.top-controls {
-  position: absolute;
-  top: 1rem;
-  right: 1rem;
-}
-
-.top-controls button {
-  background: none;
-  border: none;
-  color: var(--neon);
-  font-size: 1.3rem;
-  margin-left: 10px;
-  cursor: pointer;
 }
 
 /* ============================
@@ -149,46 +79,46 @@ body {
 .section-title {
   color: var(--neon);
   margin-bottom: 2rem;
-  text-shadow: 0 0 12px var(--neon);
+  text-shadow: 0 0 10px var(--neon);
 }
 
 /* ============================
-   RP CHARACTER IMAGE (FINAL)
+   CHARACTER FIX (IMPORTANT)
 ============================ */
+.character-card {
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
 .character-img {
   width: 100%;
   max-width: 280px;
   aspect-ratio: 4 / 5;
 
-  /* Transparent PNG safe */
   object-fit: contain;
   object-position: center;
+
+  background: transparent !important;
   transform: none !important;
+  border-radius: 0;
 
-  border-radius: 20px;
-
-  /* Neon glow only (no box bg) */
   filter:
     drop-shadow(0 0 20px rgba(34,255,136,0.45))
     drop-shadow(0 0 55px rgba(34,255,136,0.25));
 
-  transition: transform 0.3s ease, filter 0.3s ease;
+  transition: transform 0.3s ease;
 }
 
 .character-img:hover {
   transform: scale(1.04);
-  filter:
-    drop-shadow(0 0 30px rgba(34,255,136,0.65))
-    drop-shadow(0 0 80px rgba(34,255,136,0.35));
 }
 
 /* ============================
-   RP PROFILE TEXT
+   RP TEXT
 ============================ */
 .rp-list {
   list-style: none;
   padding: 0;
-  margin-bottom: 1rem;
 }
 
 .rp-list li {
@@ -199,84 +129,6 @@ body {
   color: #9ca3af;
   max-width: 520px;
   margin: auto;
-}
-
-/* ============================
-   LINKTREE
-============================ */
-.links-grid {
-  display: flex;
-  gap: 1rem;
-  justify-content: center;
-  flex-wrap: wrap;
-}
-
-.link-card {
-  padding: 1rem 2rem;
-  border: 1px solid var(--neon);
-  color: var(--neon);
-  text-decoration: none;
-  box-shadow: 0 0 10px var(--neon);
-}
-
-.link-card:hover {
-  background: var(--neon);
-  color: #020617;
-}
-
-.link-card.disabled {
-  opacity: 0.4;
-  pointer-events: none;
-}
-
-/* ============================
-   VIDEO
-============================ */
-.yt-title {
-  margin-top: 1rem;
-  color: #9ca3af;
-}
-
-.yt-loading {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  color: var(--neon);
-}
-
-/* ============================
-   CARDS
-============================ */
-.neon-card {
-  background: var(--card);
-  border-radius: 16px;
-  box-shadow: 0 0 25px rgba(34,255,136,0.35);
-}
-
-/* ============================
-   BUTTONS
-============================ */
-.btn {
-  border-radius: 999px;
-  padding: 0.6rem 1.6rem;
-  margin: 0.3rem;
-}
-
-.neon-green {
-  background: var(--neon);
-  color: #020617;
-  box-shadow: 0 0 15px var(--neon);
-}
-
-.neon-red {
-  background: #dc2626;
-  color: #fff;
-  box-shadow: 0 0 15px #dc2626;
-}
-
-.neon-outline {
-  border: 1px solid var(--neon);
-  color: var(--neon);
 }
 
 /* ============================
